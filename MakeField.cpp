@@ -9,7 +9,7 @@ makeField::makeField(int width, int height, std::string mapFile)
     field[i] = new int[width];
   }
   std::ifstream inputFile(mapFile);
-  char line[51];
+  char line[25];
   int counter = 0;
   while(!inputFile.eof()){
     inputFile >> line;
