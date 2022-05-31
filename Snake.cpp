@@ -45,7 +45,7 @@ void snake::reduceLength(){
   this->length--;
 }
 void snake::growthLength(){
-  this->baem[length] = partOfSnake(baem[length].row, baem[length].colunm);
+  this->baem[length] = partOfSnake(baem[length-1].row, baem[length-1].colunm);
   this->length++;
 }
 bool snake::gameOver(){
