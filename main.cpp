@@ -80,14 +80,11 @@ while(true){
   clear();
 
   drawField(F, S);
-  
+
   refresh();
   for(int i = 0;i<S.length;i++){
     F.field[S.baem[i].row][S.baem[i].colunm] = 0;
   }
-
-  F.field[11][11] = 5;
-  F.field[9][9] = 6;
 
   int pressedKey = getch();
   if(pressedKey == 'w'){
