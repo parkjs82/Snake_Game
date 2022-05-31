@@ -1,9 +1,41 @@
 #include <fstream>
+#include <cstdlib>
+#include <ctime>
 #include "MakeField.h"
 #include "Shapes.cpp"
 #include "Snake.h"
 
 void drawField(makeField& F,snake& S){
+
+  static int count_temp = 0;
+  count_temp++;
+  static int g_x=1, g_y = 1, r_x = 1, r_y = 1;
+
+  srand(time(NULL));
+
+  if(count_temp==5){
+    count_temp=0;
+
+    F.field[g_x][g_y] = 0;
+    F.field[r_x][r_y] = 0;
+    bool mk = true;
+    while(mk){
+      g_x = rand()%20, g_y = rand()%20;
+      if(F.field[g_x][g_y] != 0) continue;
+      F.field[g_x][g_y] = 5;
+      mk=false;
+    }
+    mk = true;
+    while(mk){
+      r_x = rand()%20, r_y = rand()%20;
+      if(F.field[r_x][r_y] != 0) continue;
+      F.field[r_x][r_y] = 6;
+      mk=false;
+    }
+  }
+  printw("%d", count_temp);
+
+
   for(int i = 0;i<S.length;i++){
     F.field[S.baem[i].row][S.baem[i].colunm] = 3;
   }
