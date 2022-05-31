@@ -17,8 +17,8 @@ public:
   partOfSnake baem[30];
   snake(int length=3,int direction=4);
 
-  snake& move(int direction);
-  snake& moveHead(int direction);
-  snake& reduceLength();
-  snake& growthLength();
+  void move(int direction);
+  void moveHead(int direction);
+  void reduceLength();
+  void growthLength();
 };

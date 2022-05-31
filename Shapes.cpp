@@ -24,8 +24,8 @@ void initShape(){
 
 void appendEmptySpace(){
   attron(COLOR_PAIR(EMPTY_SPACE));
-  addch(' ');
-  addch(' ');
+  printw(" ");
+  printw(" ");
   attroff(COLOR_PAIR(EMPTY_SPACE));
 }
 
