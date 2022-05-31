@@ -14,6 +14,7 @@ public:
   int direction;
   bool addicted;
   bool full;
+  bool death;
   partOfSnake baem[30];
   snake(int length=3,int direction=4);
 
@@ -21,5 +22,4 @@ public:
   void moveHead(int direction);
   void reduceLength();
   void growthLength();
-  bool gameOver();
 };

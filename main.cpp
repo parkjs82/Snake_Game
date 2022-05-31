@@ -5,8 +5,28 @@
 #include "Shapes.cpp"
 #include "Snake.h"
 
+void eventManager(makeField &F, snake &S){
+  int event = F.field[S.baem[0].row][S.baem[0].colunm];
+  switch (event) {
+    case 1:
+    case 2:
+      S.death = true;
+      break;
+    case 5:
+      S.growthLength();
+      break;
+    case 6:
+      S.reduceLength();
+      break;
+    case 7:
+      break;
+  }
+  for(int i = 1;i<S.length;i++){
+    if(S.baem[0].row == S.baem[i].row && S.baem[0].colunm == S.baem[i].colunm)
+      S.death = true;
+  }
+}
 void drawField(makeField& F,snake& S){
-
   static int count_temp = 0;
   count_temp++;
   static int g_x=1, g_y = 1, r_x = 1, r_y = 1;
@@ -34,8 +54,6 @@ void drawField(makeField& F,snake& S){
     }
   }
   printw("%d", count_temp);
-
-
   for(int i = 0;i<S.length;i++){
     F.field[S.baem[i].row][S.baem[i].colunm] = 3;
   }
@@ -60,22 +78,16 @@ int main()
 initscr(); // Curses모드시작
 noecho();
 
-
 std::string mapFile = "plainMap.txt";
 makeField F = makeField(21,21,mapFile);
 snake S;
-
+bool gameState = false;
 initShape();
-while(true){
-  if(S.gameOver())
-    break;
 
-  if(F.field[S.baem[0].row][S.baem[0].colunm] == 5){
-    S.growthLength();
-  }
-  if(F.field[S.baem[0].row][S.baem[0].colunm] == 6){
-    S.reduceLength();
-  }
+while(true){
+  eventManager(F,S);
+  if(S.death)
+    break;
 
   clear();
 
@@ -85,6 +97,7 @@ while(true){
   for(int i = 0;i<S.length;i++){
     F.field[S.baem[i].row][S.baem[i].colunm] = 0;
   }
+
 
   int pressedKey = getch();
   if(pressedKey == 'w'){

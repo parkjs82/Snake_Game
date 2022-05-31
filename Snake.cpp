@@ -9,6 +9,7 @@ snake::snake(int length, int direction){
   this->direction = direction;
   this->full = false;
   this->addicted = false;
+  this->death = false;
   for(int i = 0;i<length;i++){
     baem[i] = partOfSnake(5,15+i);
   }
@@ -47,13 +48,4 @@ void snake::reduceLength(){
 void snake::growthLength(){
   this->baem[length] = partOfSnake(baem[length-1].row, baem[length-1].colunm);
   this->length++;
-}
-bool snake::gameOver(){
-  if(this->baem[0].row == 0 || this->baem[0].row == 20)
-    return true;
-  
-  else if(this->baem[0].colunm == 0 || this->baem[0].colunm == 20)
-    return true;
-  
-  return false;
 }
