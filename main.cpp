@@ -3,13 +3,13 @@
 #include "Shapes.cpp"
 #include "Snake.h"
 
-void drawField(makeField F,snake S){
+void drawField(makeField& F,snake& S){
   for(int i = 0;i<S.length;i++){
     F.field[S.baem[i].row][S.baem[i].colunm] = 3;
   }
   F.field[S.baem[0].row][S.baem[0].colunm]++;
-  for(int i = 0; i< F.getHeigth();i++)
-  {
+  
+  for(int i = 0; i< F.getHeigth();i++){
     move(i+1,2);
     for(int j = 0;j<F.getWidth();j++){
       if (F.field[i][j] == 0){appendEmptySpace();}
@@ -21,11 +21,8 @@ void drawField(makeField F,snake S){
       else if(F.field[i][j] == 7){appendDoor();}
     }
   }
-  refresh();
-  for(int i = 0;i<S.length;i++){
-    F.field[S.baem[i].row][S.baem[i].colunm] = 0;
-  }
 }
+
 int main()
 {
 initscr(); // Curses모드시작
@@ -38,14 +35,19 @@ snake S;
 
 initShape();
 while(true){
+  if(S.gameOver())
+    break;
+  
   clear();
 
+  drawField(F, S);
+  /*
   for(int i = 0;i<S.length;i++){
     F.field[S.baem[i].row][S.baem[i].colunm] = 3;
   }
   F.field[S.baem[0].row][S.baem[0].colunm]++;
-  for(int i = 0; i< F.getHeigth();i++)
-  {
+  
+  for(int i = 0; i< F.getHeigth();i++){
     move(i+1,2);
     for(int j = 0;j<F.getWidth();j++){
       if (F.field[i][j] == 0){appendEmptySpace();}
@@ -57,6 +59,7 @@ while(true){
       else if(F.field[i][j] == 7){appendDoor();}
     }
   }
+  */
   refresh();
   for(int i = 0;i<S.length;i++){
     F.field[S.baem[i].row][S.baem[i].colunm] = 0;

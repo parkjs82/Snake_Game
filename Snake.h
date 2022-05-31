@@ -21,4 +21,5 @@ public:
   void moveHead(int direction);
   void reduceLength();
   void growthLength();
+  bool gameOver();
 };
