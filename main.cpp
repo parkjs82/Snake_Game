@@ -1,9 +1,13 @@
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
+#include <unistd.h>
+#include <time.h>
 #include "MakeField.h"
 #include "Shapes.cpp"
 #include "Snake.h"
+
+#define _sleep(x) usleep(x * 1000)
 
 void eventManager(makeField &F, snake &S){
   int event = F.field[S.baem[0].row][S.baem[0].colunm];
@@ -27,13 +31,13 @@ void eventManager(makeField &F, snake &S){
   }
 }
 void drawField(makeField& F,snake& S){
+  srand(time(NULL));
   static int count_temp = 0;
-  count_temp++;
   static int g_x=1, g_y = 1, r_x = 1, r_y = 1;
 
-  srand(time(NULL));
+  count_temp++;
 
-  if(count_temp==5){
+  if(count_temp==20){
     count_temp=0;
 
     F.field[g_x][g_y] = 0;
@@ -53,10 +57,11 @@ void drawField(makeField& F,snake& S){
       mk=false;
     }
   }
-  printw("%d", count_temp);
+  
   for(int i = 0;i<S.length;i++){
     F.field[S.baem[i].row][S.baem[i].colunm] = 3;
   }
+  
   F.field[S.baem[0].row][S.baem[0].colunm]++;
 
   for(int i = 0; i< F.getHeigth();i++){
@@ -73,33 +78,26 @@ void drawField(makeField& F,snake& S){
   }
 }
 
+int tic = clock();
+
 int main()
 {
 initscr(); // Curses모드시작
 noecho();
+curs_set(0);
+nodelay(stdscr, TRUE);
 
 std::string mapFile = "plainMap.txt";
 makeField F = makeField(21,21,mapFile);
 snake S;
-bool gameState = false;
+// bool gameState = false;
 initShape();
 
 while(true){
-  eventManager(F,S);
-  if(S.death)
-    break;
+  _sleep(500);
+      
+  char pressedKey = getch();
 
-  clear();
-
-  drawField(F, S);
-
-  refresh();
-  for(int i = 0;i<S.length;i++){
-    F.field[S.baem[i].row][S.baem[i].colunm] = 0;
-  }
-
-
-  int pressedKey = getch();
   if(pressedKey == 'w'){
     S.move(1);
   }
@@ -112,8 +110,23 @@ while(true){
   else if(pressedKey == 'a'){
     S.move(4);
   }
+  else{
+    S.go();
+  }
   if(pressedKey == 'q'){
     break;
+  }
+  
+  eventManager(F,S);
+  if(S.death)
+    break;
+
+  clear();
+  drawField(F, S);
+  refresh();
+
+  for(int i = 0;i < S.length; i++){
+    F.field[S.baem[i].row][S.baem[i].colunm] = 0;
   }
 }
 endwin(); // Curses모드종료

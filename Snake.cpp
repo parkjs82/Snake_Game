@@ -16,6 +16,7 @@ snake::snake(int length, int direction){
 }
 
 void snake::move(int direction){
+  this->direction = direction;
   if(this->full) {growthLength();}
   if(this->addicted) {reduceLength();}
   for(int i = this->length-1;i != 0;i--){
@@ -48,4 +49,7 @@ void snake::reduceLength(){
 void snake::growthLength(){
   this->baem[length] = partOfSnake(baem[length-1].row, baem[length-1].colunm);
   this->length++;
+}
+void snake::go(){
+  move(this->direction);
 }

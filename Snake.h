@@ -3,7 +3,7 @@
 class partOfSnake
 {
 public:
-  int row,colunm;
+  int row, colunm, direction = 2;
 
   partOfSnake(int row = 0, int colunm = 0);
 };
@@ -22,4 +22,5 @@ public:
   void moveHead(int direction);
   void reduceLength();
   void growthLength();
+  void go();
 };
