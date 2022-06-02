@@ -27,28 +27,55 @@ void eventManager(makeField &F, snake &S){
       if(S.baem[0].row == S.door[0] && S.baem[0].colunm==S.door[1]){
         S.baem[0].row = S.door[2];
         S.baem[0].colunm = S.door[3];
-        if(S.baem[0].row == 0)
+        if(S.door[2] == 0)
           S.moveHead(3);
-        if(S.baem[0].row == 20)
+        else if(S.door[2] == 20)
           S.moveHead(1);
-        if(S.baem[0].colunm == 0)
+        else if(S.door[3] == 0)
           S.moveHead(2);
-        if(S.baem[0].colunm == 20)
+        else if(S.door[3] == 20)
           S.moveHead(4);
+        else if(F.field[S.door[2]+1][S.door[3]] == 0 && F.field[S.door[2]-1][S.door[3]] == 0){
+          if(S.direction == 1 || S.direction == 3)
+            S.moveHead(S.direction);
+          else
+            S.moveHead((S.direction%4)+1);
+        }
+        else if(F.field[S.door[2]][S.door[3]+1] == 0 && F.field[S.door[2]][S.door[3]-1] == 0){
+          if(S.direction == 2 || S.direction == 4)
+            S.moveHead(S.direction);
+          else
+            S.moveHead((S.direction%4)+1);
+        }
+        else
+          S.moveHead(S.direction);
       }
       else if(S.baem[0].row == S.door[2] && S.baem[0].colunm==S.door[3]){
         S.baem[0].row = S.door[0];
         S.baem[0].colunm = S.door[1];
-        if(S.baem[0].row == 0)
+        if(S.door[0] == 0)
           S.moveHead(3);
-        if(S.baem[0].row == 20)
+        else if(S.door[0] == 20)
           S.moveHead(1);
-        if(S.baem[0].colunm == 0)
+        else if(S.door[1] == 0)
           S.moveHead(2);
-        if(S.baem[0].colunm == 20)
+        else if(S.door[1] == 20)
           S.moveHead(4);
+        else if(F.field[S.door[0]+1][S.door[1]] == 0 && F.field[S.door[0]-1][S.door[1]] == 0){
+          if(S.direction == 1 || S.direction == 3)
+            S.moveHead(S.direction);
+          else
+            S.moveHead((S.direction%4)+1);
+        }
+        else if(F.field[S.door[0]][S.door[1]+1] == 0 && F.field[S.door[0]][S.door[1]-1] == 0){
+          if(S.direction == 2 || S.direction == 4)
+            S.moveHead(S.direction);
+          else
+            S.moveHead((S.direction%4)+1);
+        }
+        else
+          S.moveHead(S.direction);
       }
-
       break;
   }
   for(int i = 1;i<S.length;i++){
@@ -90,6 +117,8 @@ void drawField(makeField& F,snake& S){
   while(mk_door1){
     S.door[0] = rand()%21; S.door[1] = rand()%21;
     if(F.field[S.door[0]][S.door[1]] != 1) continue;
+    S.door[0] = 16;
+    S.door[1] = 8;
     F.field[S.door[0]][S.door[1]] = 7;
     mk_door1 = false;
   }
@@ -97,6 +126,8 @@ void drawField(makeField& F,snake& S){
   while(mk_door2){
     S.door[2] = rand()%21; S.door[3] = rand()%21;
     if((F.field[S.door[2]][S.door[3]] != 1) || (S.door[0]==S.door[2] && S.door[1]==S.door[3])) continue;
+    S.door[2] = 8;
+    S.door[3] = 5;
     F.field[S.door[2]][S.door[3]] = 7;
     mk_door2 = false;
   }
