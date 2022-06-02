@@ -29,6 +29,8 @@ void eventManager(makeField &F, snake &S){
     if(S.baem[0].row == S.baem[i].row && S.baem[0].colunm == S.baem[i].colunm)
       S.death = true;
   }
+  if(S.length < 3)
+    S.death = true;
 }
 void drawField(makeField& F,snake& S){
   srand(time(NULL));
@@ -57,11 +59,11 @@ void drawField(makeField& F,snake& S){
       mk=false;
     }
   }
-  
+
   for(int i = 0;i<S.length;i++){
     F.field[S.baem[i].row][S.baem[i].colunm] = 3;
   }
-  
+
   F.field[S.baem[0].row][S.baem[0].colunm]++;
 
   for(int i = 0; i< F.getHeigth();i++){
@@ -95,7 +97,7 @@ initShape();
 
 while(true){
   _sleep(500);
-      
+
   char pressedKey = getch();
 
   if(pressedKey == 'w'){
@@ -116,7 +118,7 @@ while(true){
   if(pressedKey == 'q'){
     break;
   }
-  
+
   eventManager(F,S);
   if(S.death)
     break;
