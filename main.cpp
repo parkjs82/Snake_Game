@@ -60,10 +60,25 @@ void drawField(makeField& F,snake& S){
     }
   }
 
-  for(int i = 0;i<S.length;i++){
-    F.field[S.baem[i].row][S.baem[i].colunm] = 3;
+  static int door[4] = {0};
+  static bool mk_door1 = true;
+  while(mk_door1){
+    door[0] = rand()%21, door[1] = rand()%21;
+    if(F.field[door[0]][door[1]] != 1) continue;
+    F.field[door[0]][door[1]] = 7;
+    mk_door1 = false;
+  }
+  static bool mk_door2 = true;
+  while(mk_door2){
+    door[2] = rand()%21, door[3] = rand()%21;
+    if((F.field[door[2]][door[3]] != 1) || (door[0]==door[2] && door[1]==door[3])) continue;
+    F.field[door[2]][door[3]] = 7;
+    mk_door2 = false;
   }
 
+  for(int i = 0;i<S.length;i++){
+      F.field[S.baem[i].row][S.baem[i].colunm] = 3;
+  }
   F.field[S.baem[0].row][S.baem[0].colunm]++;
 
   for(int i = 0; i< F.getHeigth();i++){
