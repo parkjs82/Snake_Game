@@ -53,3 +53,6 @@ void snake::growthLength(){
 void snake::go(){
   move(this->direction);
 }
+// void snake::warp(){
+//
+// }
