@@ -16,6 +16,7 @@ public:
   bool full;
   bool death;
   partOfSnake baem[30];
+  int door[4];
   snake(int length=3,int direction=4);
 
   void move(int direction);
