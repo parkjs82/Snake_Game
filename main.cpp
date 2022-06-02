@@ -23,6 +23,32 @@ void eventManager(makeField &F, snake &S){
       S.reduceLength();
       break;
     case 7:
+      // S.warp();
+      if(S.baem[0].row == S.door[0] && S.baem[0].colunm==S.door[1]){
+        S.baem[0].row = S.door[2];
+        S.baem[0].colunm = S.door[3];
+        if(S.baem[0].row == 0)
+          S.moveHead(3);
+        if(S.baem[0].row == 20)
+          S.moveHead(1);
+        if(S.baem[0].colunm == 0)
+          S.moveHead(2);
+        if(S.baem[0].colunm == 20)
+          S.moveHead(4);
+      }
+      else if(S.baem[0].row == S.door[2] && S.baem[0].colunm==S.door[3]){
+        S.baem[0].row = S.door[0];
+        S.baem[0].colunm = S.door[1];
+        if(S.baem[0].row == 0)
+          S.moveHead(3);
+        if(S.baem[0].row == 20)
+          S.moveHead(1);
+        if(S.baem[0].colunm == 0)
+          S.moveHead(2);
+        if(S.baem[0].colunm == 20)
+          S.moveHead(4);
+      }
+
       break;
   }
   for(int i = 1;i<S.length;i++){
