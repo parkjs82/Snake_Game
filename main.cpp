@@ -35,20 +35,30 @@ void eventManager(makeField &F, snake &S){
           S.moveHead(2);
         else if(S.door[3] == 20)
           S.moveHead(4);
-        else if(F.field[S.door[2]+1][S.door[3]] == 0 && F.field[S.door[2]-1][S.door[3]] == 0){
-          if(S.direction == 1 || S.direction == 3)
-            S.moveHead(S.direction);
+        else if(S.direction == 3){
+          if(F.field[S.door[2]+1][S.door[3]] == 0)
+            S.moveHead(3);
           else
             S.moveHead((S.direction%4)+1);
-        }
-        else if(F.field[S.door[2]][S.door[3]+1] == 0 && F.field[S.door[2]][S.door[3]-1] == 0){
-          if(S.direction == 2 || S.direction == 4)
-            S.moveHead(S.direction);
+          }
+        else if(S.direction == 1){
+          if(F.field[S.door[2]-1][S.door[3]] == 0)
+            S.moveHead(1);
           else
             S.moveHead((S.direction%4)+1);
-        }
-        else
-          S.moveHead(S.direction);
+          }
+        else if(S.direction == 2){
+          if(F.field[S.door[2]][S.door[3]+1] == 0)
+            S.moveHead(2);
+          else
+            S.moveHead((S.direction%4)+1);
+          }
+        else if(S.direction == 4){
+          if(F.field[S.door[2]][S.door[3]-1] == 0)
+            S.moveHead(4);
+          else
+            S.moveHead((S.direction%4)+1);
+          }
       }
       else if(S.baem[0].row == S.door[2] && S.baem[0].colunm==S.door[3]){
         S.baem[0].row = S.door[0];
@@ -61,20 +71,30 @@ void eventManager(makeField &F, snake &S){
           S.moveHead(2);
         else if(S.door[1] == 20)
           S.moveHead(4);
-        else if(F.field[S.door[0]+1][S.door[1]] == 0 && F.field[S.door[0]-1][S.door[1]] == 0){
-          if(S.direction == 1 || S.direction == 3)
-            S.moveHead(S.direction);
+        else if(S.direction == 3){
+          if(F.field[S.door[0]+1][S.door[1]] == 0)
+            S.moveHead(3);
           else
             S.moveHead((S.direction%4)+1);
-        }
-        else if(F.field[S.door[0]][S.door[1]+1] == 0 && F.field[S.door[0]][S.door[1]-1] == 0){
-          if(S.direction == 2 || S.direction == 4)
-            S.moveHead(S.direction);
+          }
+        else if(S.direction == 1){
+          if(F.field[S.door[0]-1][S.door[1]] == 0)
+            S.moveHead(1);
           else
             S.moveHead((S.direction%4)+1);
-        }
-        else
-          S.moveHead(S.direction);
+          }
+        else if(S.direction == 2){
+          if(F.field[S.door[0]][S.door[1]+1] == 0)
+            S.moveHead(2);
+          else
+            S.moveHead((S.direction%4)+1);
+          }
+        else if(S.direction == 4){
+          if(F.field[S.door[0]][S.door[1]-1] == 0)
+            S.moveHead(4);
+          else
+            S.moveHead((S.direction%4)+1);
+          }
       }
       break;
   }
@@ -117,8 +137,8 @@ void drawField(makeField& F,snake& S){
   while(mk_door1){
     S.door[0] = rand()%21; S.door[1] = rand()%21;
     if(F.field[S.door[0]][S.door[1]] != 1) continue;
-    S.door[0] = 16;
-    S.door[1] = 8;
+    S.door[0] = 8;
+    S.door[1] = 5;
     F.field[S.door[0]][S.door[1]] = 7;
     mk_door1 = false;
   }
@@ -126,8 +146,8 @@ void drawField(makeField& F,snake& S){
   while(mk_door2){
     S.door[2] = rand()%21; S.door[3] = rand()%21;
     if((F.field[S.door[2]][S.door[3]] != 1) || (S.door[0]==S.door[2] && S.door[1]==S.door[3])) continue;
-    S.door[2] = 8;
-    S.door[3] = 5;
+    S.door[2] = 16;
+    S.door[3] = 8;
     F.field[S.door[2]][S.door[3]] = 7;
     mk_door2 = false;
   }
