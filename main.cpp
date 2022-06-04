@@ -6,8 +6,11 @@
 #include "MakeField.h"
 #include "Shapes.cpp"
 #include "Snake.h"
+#include "string"
 
 #define _sleep(x) usleep(x * 1000)
+
+double score = 0.0;
 
 void eventManager(makeField &F, snake &S){
   int event = F.field[S.baem[0].row][S.baem[0].colunm];
@@ -18,9 +21,11 @@ void eventManager(makeField &F, snake &S){
       break;
     case 5:
       S.growthLength();
+      score += 10;
       break;
     case 6:
       S.reduceLength();
+      score += 10;
       break;
     case 7:
       // S.warp();
@@ -105,6 +110,21 @@ void eventManager(makeField &F, snake &S){
   if(S.length < 3)
     S.death = true;
 }
+
+void drawScore(WINDOW* scoreBoard, double score)
+{
+  std::string str = "Score: " + std::to_string((int)score);
+  char* scoreStr = new char[str.size() + 1];
+  for(int i = 0; i <= str.size(); i++)
+    scoreStr[i] = str[i];
+  
+  wbkgd(scoreBoard, COLOR_PAIR(2));
+  wattron(scoreBoard, COLOR_PAIR(2));
+  mvwprintw(scoreBoard, 1, 1, scoreStr);
+  wborder(scoreBoard, '|','|','-','-','+','+','+','+');
+  wrefresh(scoreBoard);
+}
+
 void drawField(makeField& F,snake& S){
   srand(time(NULL));
   static int count_temp = 0;
@@ -175,7 +195,11 @@ int tic = clock();
 
 int main()
 {
+WINDOW* scoreBoard;
+resize_term(22, 80);
 initscr(); // Curses모드시작
+scoreBoard = newwin(4, 15, 1, 45);
+
 noecho();
 curs_set(0);
 nodelay(stdscr, TRUE);
@@ -183,11 +207,14 @@ nodelay(stdscr, TRUE);
 std::string mapFile = "plainMap.txt";
 makeField F = makeField(21,21,mapFile);
 snake S;
-// bool gameState = false;
+
 initShape();
 
 while(true){
   _sleep(500);
+
+  score += 0.5;
+  //std::cout<< score << std::endl;
 
   char pressedKey = getch();
 
@@ -214,7 +241,7 @@ while(true){
   if(S.death)
     break;
 
-  clear();
+  drawScore(scoreBoard, score);
   drawField(F, S);
   refresh();
 
@@ -223,5 +250,6 @@ while(true){
   }
 }
 endwin(); // Curses모드종료
+
 return 0;
 }
