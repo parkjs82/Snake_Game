@@ -9,7 +9,6 @@
 #include "string"
 
 #define _sleep(x) usleep(x * 1000)
-
 double score = 0.0;
 
 void eventManager(makeField &F, snake &S){
@@ -111,7 +110,7 @@ void eventManager(makeField &F, snake &S){
     S.death = true;
 }
 
-void drawScore(WINDOW* scoreBoard, double score)
+void drawScore(WINDOW* scoreBoard, double score, char nickname[])
 {
   std::string str = "Score: " + std::to_string((int)score);
   char* scoreStr = new char[str.size() + 1];
@@ -120,7 +119,9 @@ void drawScore(WINDOW* scoreBoard, double score)
   
   wbkgd(scoreBoard, COLOR_PAIR(2));
   wattron(scoreBoard, COLOR_PAIR(2));
-  mvwprintw(scoreBoard, 1, 1, scoreStr);
+  mvwprintw(scoreBoard, 1, 1, "User: ");
+  mvwprintw(scoreBoard, 1, 7, nickname);
+  mvwprintw(scoreBoard, 2, 1, scoreStr);
   wborder(scoreBoard, '|','|','-','-','+','+','+','+');
   wrefresh(scoreBoard);
 }
@@ -178,7 +179,7 @@ void drawField(makeField& F,snake& S){
   F.field[S.baem[0].row][S.baem[0].colunm]++;
 
   for(int i = 0; i< F.getHeigth();i++){
-    move(i+1,2);
+    move(i + 1, 0);
     for(int j = 0;j<F.getWidth();j++){
       if (F.field[i][j] == 0){appendEmptySpace();}
       else if(F.field[i][j] == 1 || F.field[i][j] == 2){appendWall();}
@@ -191,65 +192,83 @@ void drawField(makeField& F,snake& S){
   }
 }
 
-int tic = clock();
-
 int main()
 {
-WINDOW* scoreBoard;
-resize_term(22, 80);
-initscr(); // Curses모드시작
-scoreBoard = newwin(4, 15, 1, 45);
+  WINDOW* scoreBoard;
+  resize_term(22, 80);
+  initscr(); // Curses모드시작
+  scoreBoard = newwin(4, 15, 1, 45);
 
-noecho();
-curs_set(0);
-nodelay(stdscr, TRUE);
+  char nickName[7];
+  attron(COLOR_PAIR(8));
+  printw("Enter User nickname: ");
+  attroff(COLOR_PAIR(8));
+  scanw("%s", nickName);
 
-std::string mapFile = "plainMap.txt";
-makeField F = makeField(21,21,mapFile);
-snake S;
-
-initShape();
-
-while(true){
-  _sleep(500);
-
-  score += 0.5;
-  //std::cout<< score << std::endl;
-
-  char pressedKey = getch();
-
-  if(pressedKey == 'w'){
-    S.move(1);
-  }
-  else if(pressedKey == 's'){
-    S.move(3);
-  }
-  else if(pressedKey == 'd'){
-    S.move(2);
-  }
-  else if(pressedKey == 'a'){
-    S.move(4);
-  }
-  else{
-    S.go();
-  }
-  if(pressedKey == 'q'){
-    break;
-  }
-
-  eventManager(F,S);
-  if(S.death)
-    break;
-
-  drawScore(scoreBoard, score);
-  drawField(F, S);
   refresh();
 
-  for(int i = 0;i < S.length; i++){
-    F.field[S.baem[i].row][S.baem[i].colunm] = 0;
-  }
-}
-endwin(); // Curses모드종료
+  noecho();
+  curs_set(0);
+  nodelay(stdscr, TRUE);
 
-return 0;
+  std::string mapFile = "plainMap.txt";
+  makeField F = makeField(21,21,mapFile);
+  snake S;
+
+  clear();
+  initShape();
+
+  while(true){
+    _sleep(500);
+
+    score += 0.5;
+    //std::cout<< score << std::endl;
+
+    char pressedKey = getch();
+
+    if(pressedKey == 'w'){
+      S.move(1);
+    }
+    else if(pressedKey == 's'){
+      S.move(3);
+    }
+    else if(pressedKey == 'd'){
+      S.move(2);
+    }
+    else if(pressedKey == 'a'){
+      S.move(4);
+    }
+    else{
+      S.go();
+    }
+    if(pressedKey == 'q'){
+      break;
+    }
+
+    eventManager(F,S);
+    if(S.death)
+      break;
+
+    drawScore(scoreBoard, score, nickName);
+    drawField(F, S);
+    refresh();
+
+    for(int i = 0;i < S.length; i++){
+      F.field[S.baem[i].row][S.baem[i].colunm] = 0;
+    }
+  }
+
+  nodelay(stdscr, FALSE);
+
+  attron(COLOR_PAIR(8));
+  printw("\nEscape any press key");
+  attroff(COLOR_PAIR(8));
+
+  refresh();
+  getchar();
+
+  clear();
+  endwin(); // Curses모드종료
+
+  return 0;
 }

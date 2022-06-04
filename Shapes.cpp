@@ -10,6 +10,7 @@
 #define GROWTH_ITEM 5
 #define POISON_ITEM 6
 #define DOOR 7
+#define TEXT 8
 
 void initShape(){
   start_color();
@@ -20,6 +21,7 @@ void initShape(){
   init_pair(GROWTH_ITEM, COLOR_BLACK, COLOR_CYAN);
   init_pair(POISON_ITEM, COLOR_BLACK, COLOR_MAGENTA);
   init_pair(DOOR, COLOR_BLACK, COLOR_WHITE);
+  init_pair(TEXT, COLOR_WHITE, COLOR_BLACK);
 }
 
 void appendEmptySpace(){
