@@ -219,12 +219,8 @@ void drawField(makeField& F,snake& S){
 
 int main()
 {
-  WINDOW* scoreBoard;
-  WINDOW* missionBoard;
   resize_term(22, 80);
   initscr(); // Curses모드시작
-  scoreBoard = newwin(9, 15, 1, 43);
-  missionBoard = newwin(7, 15, 12, 43);
 
   char nickName[7];
   attron(COLOR_PAIR(8));
@@ -232,58 +228,74 @@ int main()
   attroff(COLOR_PAIR(8));
   scanw("%s", nickName);
 
-  refresh();
+  std::string maps[4] = {"CircleMap.txt", "plainMap.txt", "CrossMap.txt", "CircleMap.txt"};
 
-  noecho();
-  curs_set(0);
-  nodelay(stdscr, TRUE);
+  bool next = true;
+  int test = 2, map_count=0;
+  while(next){
+    if(test == 0)
+      next = false;
+    test -= 1;
 
-  std::string mapFile = "CircleMap.txt";
-  makeField F = makeField(21,21,mapFile);
-  snake S;
-  Score score;
+    WINDOW* scoreBoard;
+    WINDOW* missionBoard;
+    scoreBoard = newwin(9, 15, 1, 43);
+    missionBoard = newwin(7, 15, 12, 43);
 
-  clear();
-  initShape();
-
-  while(true){
-    _sleep(500);
-
-    score.time();
-    char pressedKey = getch();
-
-    if(pressedKey == 'w'){
-      S.move(1);
-    }
-    else if(pressedKey == 's'){
-      S.move(3);
-    }
-    else if(pressedKey == 'd'){
-      S.move(2);
-    }
-    else if(pressedKey == 'a'){
-      S.move(4);
-    }
-    else{
-      S.go();
-    }
-    if(pressedKey == 'q'){
-      break;
-    }
-
-    eventManager(F,S,score);
-    makeEvent(F,S);
-    if(S.death)
-      break;
-
-    drawScore(scoreBoard, score, nickName);
-    drawMission(missionBoard, score);
-    drawField(F, S);
     refresh();
 
-    for(int i = 0;i < S.length; i++){
-      F.field[S.baem[i].row][S.baem[i].colunm] = 0;
+    noecho();
+    curs_set(0);
+    nodelay(stdscr, TRUE);
+
+    std::string mapFile = maps[map_count];
+    makeField F = makeField(21,21,mapFile);
+    snake S;
+    Score score;
+
+    clear();
+    initShape();
+
+    while(true){
+      _sleep(500);
+
+      score.time();
+      char pressedKey = getch();
+
+      if(pressedKey == 'w'){
+        S.move(1);
+      }
+      else if(pressedKey == 's'){
+        S.move(3);
+      }
+      else if(pressedKey == 'd'){
+        S.move(2);
+      }
+      else if(pressedKey == 'a'){
+        S.move(4);
+      }
+      else{
+        S.go();
+      }
+      if(pressedKey == 'q'){
+        break;
+      }
+
+      eventManager(F,S,score);
+      makeEvent(F,S);
+      if(S.death)
+        break;
+
+      drawScore(scoreBoard, score, nickName);
+      drawMission(missionBoard, score);
+      drawField(F, S);
+      refresh();
+
+      for(int i = 0;i < S.length; i++){
+        F.field[S.baem[i].row][S.baem[i].colunm] = 0;
+      }
     }
+    map_count++;
   }
 
   nodelay(stdscr, FALSE);
