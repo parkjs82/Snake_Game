@@ -7,11 +7,11 @@
 #include "Shapes.cpp"
 #include "Snake.h"
 #include "string"
+#include "./Score.h"
 
 #define _sleep(x) usleep(x * 1000)
-double score = 0.0;
 
-void eventManager(makeField &F, snake &S){
+void eventManager(makeField &F, snake &S, Score &score){
   int event = F.field[S.baem[0].row][S.baem[0].colunm];
   switch (event) {
     case 1:
@@ -20,13 +20,14 @@ void eventManager(makeField &F, snake &S){
       break;
     case 5:
       S.growthLength();
-      score += 10;
+      score.growthItems();
       break;
     case 6:
       S.reduceLength();
-      score -= 10;
+      score.posionItems();
       break;
     case 7:
+      score.useGate();
       if(S.baem[0].row == S.door[0] && S.baem[0].colunm==S.door[1]){
         S.baem[0].row = S.door[2];
         S.baem[0].colunm = S.door[3];
@@ -151,17 +152,28 @@ void makeEvent(makeField& F,snake& S){
     mk_door2 = false;
   }
 }
-void drawScore(WINDOW* scoreBoard, double score, char nickname[]){
-  std::string str = "Score: " + std::to_string((int)score);
+void drawScore(WINDOW* scoreBoard, Score& score, char nickname[]){
+  std::string str = "Score: " + std::to_string(score.getScore());
   char* scoreStr = new char[str.size() + 1];
   for(int i = 0; i <= str.size(); i++)
     scoreStr[i] = str[i];
 
-  wbkgd(scoreBoard, COLOR_PAIR(8));
-  wattron(scoreBoard, COLOR_PAIR(8));
-  mvwprintw(scoreBoard, 1, 1, "User: ");
-  mvwprintw(scoreBoard, 1, 8, nickname);
+  char plus[2]; 
+  plus[0] = score.getGrowth() + '0'; plus[1] = '\0';
+  
+  char minus[2];
+  minus[0] = score.getPosion() + '0'; minus[1] = '\0';
+
+  char G[2];
+  G[0] = score.getGate() + '0'; G[1] = '\0';
+  
+  wbkgd(scoreBoard, COLOR_PAIR(9));
+  wattron(scoreBoard, COLOR_PAIR(9));
+  mvwprintw(scoreBoard, 1, 1, "User: "); mvwprintw(scoreBoard, 1, 7, nickname);
   mvwprintw(scoreBoard, 2, 1, scoreStr);
+  mvwprintw(scoreBoard, 3, 1, "+: "); mvwprintw(scoreBoard, 3, 4, plus);
+  mvwprintw(scoreBoard, 4, 1, "-: "); mvwprintw(scoreBoard, 4, 4, minus);
+  mvwprintw(scoreBoard, 5, 1, "G: "); mvwprintw(scoreBoard, 5, 4, G);
   wborder(scoreBoard, '|','|','-','-','+','+','+','+');
   wrefresh(scoreBoard);
 }
@@ -190,7 +202,7 @@ int main()
   WINDOW* scoreBoard;
   resize_term(22, 80);
   initscr(); // Curses모드시작
-  scoreBoard = newwin(4, 15, 1, 45);
+  scoreBoard = newwin(8, 15, 1, 43);
 
   char nickName[7];
   attron(COLOR_PAIR(8));
@@ -207,6 +219,7 @@ int main()
   std::string mapFile = "CircleMap.txt";
   makeField F = makeField(21,21,mapFile);
   snake S;
+  Score score;
 
   clear();
   initShape();
@@ -214,7 +227,7 @@ int main()
   while(true){
     _sleep(500);
 
-    score += 0.5;
+    score.time();
     char pressedKey = getch();
 
     if(pressedKey == 'w'){
@@ -236,7 +249,7 @@ int main()
       break;
     }
 
-    eventManager(F,S);
+    eventManager(F,S,score);
     makeEvent(F,S);
     if(S.death)
       break;
