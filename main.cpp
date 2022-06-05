@@ -110,6 +110,11 @@ void eventManager(makeField &F, snake &S, Score &score){
     S.death = true;
 }
 void makeEvent(makeField& F,snake& S){
+  for(int i = 0;i<S.length;i++){
+      F.field[S.baem[i].row][S.baem[i].colunm] = 3;
+  }
+  F.field[S.baem[0].row][S.baem[0].colunm]++;
+
   srand(time(NULL));
   static int count_temp = 19;
   static int g_x=1, g_y = 1, r_x = 1, r_y = 1;
@@ -158,31 +163,46 @@ void drawScore(WINDOW* scoreBoard, Score& score, char nickname[]){
   for(int i = 0; i <= str.size(); i++)
     scoreStr[i] = str[i];
 
-  char plus[2]; 
+  char plus[2];
   plus[0] = score.getGrowth() + '0'; plus[1] = '\0';
-  
+
   char minus[2];
   minus[0] = score.getPosion() + '0'; minus[1] = '\0';
 
+  char len[2];
+  len[0] = score.getLen() + '0'; len[1] = '\0';
+
   char G[2];
   G[0] = score.getGate() + '0'; G[1] = '\0';
-  
+
   wbkgd(scoreBoard, COLOR_PAIR(9));
   wattron(scoreBoard, COLOR_PAIR(9));
-  mvwprintw(scoreBoard, 1, 1, "User: "); mvwprintw(scoreBoard, 1, 7, nickname);
-  mvwprintw(scoreBoard, 2, 1, scoreStr);
-  mvwprintw(scoreBoard, 3, 1, "+: "); mvwprintw(scoreBoard, 3, 4, plus);
-  mvwprintw(scoreBoard, 4, 1, "-: "); mvwprintw(scoreBoard, 4, 4, minus);
-  mvwprintw(scoreBoard, 5, 1, "G: "); mvwprintw(scoreBoard, 5, 4, G);
+  mvwprintw(scoreBoard, 1, 2, "Score Bored");
+  mvwprintw(scoreBoard, 2, 1, "User: "); mvwprintw(scoreBoard, 2, 7, nickname);
+  mvwprintw(scoreBoard, 3, 1, scoreStr);
+  mvwprintw(scoreBoard, 4, 1, "B: "); mvwprintw(scoreBoard, 4, 4, len);
+  mvwprintw(scoreBoard, 5, 1, "+: "); mvwprintw(scoreBoard, 5, 4, plus);
+  mvwprintw(scoreBoard, 6, 1, "-: "); mvwprintw(scoreBoard, 6, 4, minus);
+  mvwprintw(scoreBoard, 7, 1, "G: "); mvwprintw(scoreBoard, 7, 4, G);
   wborder(scoreBoard, '|','|','-','-','+','+','+','+');
   wrefresh(scoreBoard);
 }
-void drawField(makeField& F,snake& S){
-  for(int i = 0;i<S.length;i++){
-      F.field[S.baem[i].row][S.baem[i].colunm] = 3;
-  }
-  F.field[S.baem[0].row][S.baem[0].colunm]++;
+void drawMission(WINDOW* missionBoard, Score& score){
 
+  // static int plus = rand()%15, minus = rand()%15, G = rand()%6, B;
+
+  wbkgd(missionBoard, COLOR_PAIR(9));
+  wattron(missionBoard, COLOR_PAIR(9));
+  mvwprintw(missionBoard, 1, 4, "Mission");
+  mvwprintw(missionBoard, 2, 1, "B: ");
+  mvwprintw(missionBoard, 3, 1, "+: "); //mvwprintw(missionBoard, 3, 4, (char)(plus+48));
+  mvwprintw(missionBoard, 4, 1, "-: "); //mvwprintw(missionBoard, 4, 4, (char)(minus+48));
+  mvwprintw(missionBoard, 5, 1, "G: "); //mvwprintw(missionBoard, 5, 4, (char)(G+48));
+  wborder(missionBoard, '|','|','-','-','+','+','+','+');
+  wrefresh(missionBoard);
+}
+
+void drawField(makeField& F,snake& S){
   for(int i = 0; i< F.getHeigth();i++){
     move(i + 1, 0);
     for(int j = 0;j<F.getWidth();j++){
@@ -200,9 +220,11 @@ void drawField(makeField& F,snake& S){
 int main()
 {
   WINDOW* scoreBoard;
+  WINDOW* missionBoard;
   resize_term(22, 80);
   initscr(); // Curses모드시작
-  scoreBoard = newwin(8, 15, 1, 43);
+  scoreBoard = newwin(9, 15, 1, 43);
+  missionBoard = newwin(7, 15, 12, 43);
 
   char nickName[7];
   attron(COLOR_PAIR(8));
@@ -255,6 +277,7 @@ int main()
       break;
 
     drawScore(scoreBoard, score, nickName);
+    drawMission(missionBoard, score);
     drawField(F, S);
     refresh();
 
