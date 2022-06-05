@@ -24,5 +24,4 @@ public:
   void reduceLength();
   void growthLength();
   void go();
-  void warp();
 };

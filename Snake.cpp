@@ -53,8 +53,3 @@ void snake::growthLength(){
 void snake::go(){
   move(this->direction);
 }
-void snake::warp(){
-  this->baem[0].row = 10;
-  this->baem[0].colunm = 10;
-
-}

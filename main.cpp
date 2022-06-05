@@ -24,10 +24,9 @@ void eventManager(makeField &F, snake &S){
       break;
     case 6:
       S.reduceLength();
-      score += 10;
+      score -= 10;
       break;
     case 7:
-      // S.warp();
       if(S.baem[0].row == S.door[0] && S.baem[0].colunm==S.door[1]){
         S.baem[0].row = S.door[2];
         S.baem[0].colunm = S.door[3];
@@ -109,35 +108,18 @@ void eventManager(makeField &F, snake &S){
   if(S.length < 3)
     S.death = true;
 }
-
-void drawScore(WINDOW* scoreBoard, double score, char nickname[])
-{
-  std::string str = "Score: " + std::to_string((int)score);
-  char* scoreStr = new char[str.size() + 1];
-  for(int i = 0; i <= str.size(); i++)
-    scoreStr[i] = str[i];
-  
-  wbkgd(scoreBoard, COLOR_PAIR(2));
-  wattron(scoreBoard, COLOR_PAIR(2));
-  mvwprintw(scoreBoard, 1, 1, "User: ");
-  mvwprintw(scoreBoard, 1, 7, nickname);
-  mvwprintw(scoreBoard, 2, 1, scoreStr);
-  wborder(scoreBoard, '|','|','-','-','+','+','+','+');
-  wrefresh(scoreBoard);
-}
-
-void drawField(makeField& F,snake& S){
+void makeEvent(makeField& F,snake& S){
   srand(time(NULL));
-  static int count_temp = 0;
+  static int count_temp = 19;
   static int g_x=1, g_y = 1, r_x = 1, r_y = 1;
 
   count_temp++;
 
   if(count_temp==20){
     count_temp=0;
+    if(F.field[g_x][g_y] == 5){F.field[g_x][g_y] = 0;}
+    if(F.field[r_x][r_y] == 6){F.field[r_x][r_y] = 0;}
 
-    F.field[g_x][g_y] = 0;
-    F.field[r_x][r_y] = 0;
     bool mk = true;
     while(mk){
       g_x = rand()%20, g_y = rand()%20;
@@ -158,8 +140,6 @@ void drawField(makeField& F,snake& S){
   while(mk_door1){
     S.door[0] = rand()%21; S.door[1] = rand()%21;
     if(F.field[S.door[0]][S.door[1]] != 1) continue;
-    S.door[0] = 8;
-    S.door[1] = 5;
     F.field[S.door[0]][S.door[1]] = 7;
     mk_door1 = false;
   }
@@ -167,12 +147,25 @@ void drawField(makeField& F,snake& S){
   while(mk_door2){
     S.door[2] = rand()%21; S.door[3] = rand()%21;
     if((F.field[S.door[2]][S.door[3]] != 1) || (S.door[0]==S.door[2] && S.door[1]==S.door[3])) continue;
-    S.door[2] = 16;
-    S.door[3] = 8;
     F.field[S.door[2]][S.door[3]] = 7;
     mk_door2 = false;
   }
+}
+void drawScore(WINDOW* scoreBoard, double score, char nickname[]){
+  std::string str = "Score: " + std::to_string((int)score);
+  char* scoreStr = new char[str.size() + 1];
+  for(int i = 0; i <= str.size(); i++)
+    scoreStr[i] = str[i];
 
+  wbkgd(scoreBoard, COLOR_PAIR(8));
+  wattron(scoreBoard, COLOR_PAIR(8));
+  mvwprintw(scoreBoard, 1, 1, "User: ");
+  mvwprintw(scoreBoard, 1, 8, nickname);
+  mvwprintw(scoreBoard, 2, 1, scoreStr);
+  wborder(scoreBoard, '|','|','-','-','+','+','+','+');
+  wrefresh(scoreBoard);
+}
+void drawField(makeField& F,snake& S){
   for(int i = 0;i<S.length;i++){
       F.field[S.baem[i].row][S.baem[i].colunm] = 3;
   }
@@ -211,7 +204,7 @@ int main()
   curs_set(0);
   nodelay(stdscr, TRUE);
 
-  std::string mapFile = "plainMap.txt";
+  std::string mapFile = "CircleMap.txt";
   makeField F = makeField(21,21,mapFile);
   snake S;
 
@@ -222,8 +215,6 @@ int main()
     _sleep(500);
 
     score += 0.5;
-    //std::cout<< score << std::endl;
-
     char pressedKey = getch();
 
     if(pressedKey == 'w'){
@@ -246,6 +237,7 @@ int main()
     }
 
     eventManager(F,S);
+    makeEvent(F,S);
     if(S.death)
       break;
 
