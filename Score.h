@@ -1,7 +1,7 @@
 class Score
 {
     double second;
-    int growth, posion, gate, len;
+    int growth, posion, gate, len, maxLen;
 public:
     Score();
     void time();
@@ -13,5 +13,6 @@ public:
     int getPosion();
     int getGate();
     int getLen();
+    int getMaxLen();
     int getScore();
 };

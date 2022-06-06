@@ -163,17 +163,56 @@ void drawScore(WINDOW* scoreBoard, Score& score, char nickname[]){
   for(int i = 0; i <= str.size(); i++)
     scoreStr[i] = str[i];
 
-  char plus[2];
-  plus[0] = score.getGrowth() + '0'; plus[1] = '\0';
+  char plus[3];
+  if(score.getGrowth() > 9)
+  {
+    plus[0] = score.getGrowth() / 10 + '0';
+    plus[1] = score.getGrowth() % 10 + '0';
+    plus[2] = '\0';
+  }
+  else
+  {
+    plus[0] = score.getGrowth() % 10 + '0';
+    plus[1] = '\0';
+  }
 
-  char minus[2];
-  minus[0] = score.getPosion() + '0'; minus[1] = '\0';
-
-  char len[2];
-  len[0] = score.getLen() + '0'; len[1] = '\0';
-
-  char G[2];
-  G[0] = score.getGate() + '0'; G[1] = '\0';
+  char minus[3];
+  if(score.getPosion() > 9)
+  {
+    minus[0] = score.getPosion() / 10 + '0';
+    minus[1] = score.getPosion() % 10 + '0';
+    minus[2] = '\0';
+  }
+  else
+  {
+    minus[0] = score.getPosion() % 10 + '0';
+    minus[1] = '\0';
+  }
+  char len[3];
+  if(score.getLen() > 9)
+  {
+    len[0] = score.getLen() / 10 + '0';
+    len[1] = score.getLen() % 10 + '0';
+    len[2] = '\0';
+  }
+  else
+  {
+    len[0] = score.getLen() % 10 + '0';
+    len[1] = ' ';
+    len[2] = '\0';
+  }
+  char G[3];
+  if(score.getGate() > 9)
+  {
+    G[0] = score.getGate() / 10 + '0';
+    G[1] = score.getGate() % 10 + '0';
+    G[2] = '\0';
+  }
+  else
+  {
+    G[0] = score.getGate() % 10 + '0';
+    G[1] = '\0';
+  }
 
   wbkgd(scoreBoard, COLOR_PAIR(9));
   wattron(scoreBoard, COLOR_PAIR(9));
@@ -189,39 +228,43 @@ void drawScore(WINDOW* scoreBoard, Score& score, char nickname[]){
 }
 void drawMission(WINDOW* missionBoard, Score& score){
 
-  static int a = rand()%15, b = rand()%15, c = rand()%8, d = rand()%20;
-  while(a<5) {a = rand()%15;}
-  while(b<5) {b = rand()%15;}
-  while(c<2) {c = rand()%8;}
-  while(d<10) {d = rand()%20;}
+  static int mlen = rand()%20, mGrowth = rand()%15, mPosion = rand()%15, mGate = rand()%8;
+  while(mGrowth<5) {mGrowth = rand()%15;}
+  while(mPosion<5) {mPosion = rand()%15;}
+  while(mGate<2) {mGate = rand()%8;}
+  while(mlen<10) {mlen = rand()%20;}
 
-  std::string temp = std::to_string(a);
+  std::string temp = std::to_string(mlen);
+  char* B = new char[temp.size() + 1];
+  for(int i = 0; i <= temp.size(); i++)
+    B[i] = temp[i];
+  
+  temp = std::to_string(mGrowth);
   char* plus = new char[temp.size() + 1];
   for(int i = 0; i <= temp.size(); i++)
     plus[i] = temp[i];
 
-  temp = std::to_string(b);
+  temp = std::to_string(mPosion);
   char* minus = new char[temp.size() + 1];
   for(int i = 0; i <= temp.size(); i++)
     minus[i] = temp[i];
 
-  temp = std::to_string(c);
+  temp = std::to_string(mGate);
   char* G = new char[temp.size() + 1];
   for(int i = 0; i <= temp.size(); i++)
     G[i] = temp[i];
-
-  temp = std::to_string(d);
-  char* B = new char[temp.size() + 1];
-  for(int i = 0; i <= temp.size(); i++)
-    B[i] = temp[i];
 
   wbkgd(missionBoard, COLOR_PAIR(9));
   wattron(missionBoard, COLOR_PAIR(9));
   mvwprintw(missionBoard, 1, 4, "Mission");
   mvwprintw(missionBoard, 2, 1, "B: "); mvwprintw(missionBoard, 2, 4, B);
+  if(mlen <= score.getMaxLen()) mvwprintw(missionBoard, 2, 7, "(O)");
   mvwprintw(missionBoard, 3, 1, "+: "); mvwprintw(missionBoard, 3, 4, plus);
+  if(mGrowth <= score.getGrowth()) mvwprintw(missionBoard, 3, 7, "(O)");
   mvwprintw(missionBoard, 4, 1, "-: "); mvwprintw(missionBoard, 4, 4, minus);
+  if(mPosion <= score.getPosion()) mvwprintw(missionBoard, 4, 7, "(O)");
   mvwprintw(missionBoard, 5, 1, "G: "); mvwprintw(missionBoard, 5, 4, G);
+  if(mGate <= score.getGate()) mvwprintw(missionBoard, 5, 7, "(O)");
   wborder(missionBoard, '|','|','-','-','+','+','+','+');
   wrefresh(missionBoard);
 }
