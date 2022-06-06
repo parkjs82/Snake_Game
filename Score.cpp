@@ -5,6 +5,7 @@ Score::Score()
     second = 0.0;
     growth = posion = gate = 0;
     maxLen = len = 3;
+    mission1 = mission2 = mission3 = mission4 = false;
 }
 
 void Score::time() { second += 0.5; }
@@ -27,4 +28,7 @@ int Score::getMaxLen() { return maxLen; }
 
 int Score::getScore() {
     return second + 10 * (growth + posion + gate);
+}
+bool Score::clearGame(){
+  return (mission1 && mission2 && mission3 && mission4);
 }
