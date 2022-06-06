@@ -226,19 +226,19 @@ void drawScore(WINDOW* scoreBoard, Score& score, char nickname[]){
   wborder(scoreBoard, '|','|','-','-','+','+','+','+');
   wrefresh(scoreBoard);
 }
-void drawMission(WINDOW* missionBoard, Score& score){
+void drawMission(WINDOW* missionBoard, Score& score, int hard){
 
-  static int mlen = rand()%20, mGrowth = rand()%15, mPosion = rand()%15, mGate = rand()%8;
-  while(mGrowth<5) {mGrowth = rand()%15;}
-  while(mPosion<5) {mPosion = rand()%15;}
-  while(mGate<2) {mGate = rand()%8;}
-  while(mlen<10) {mlen = rand()%20;}
+  static int mlen = rand()%(8*hard), mGrowth = rand()%(5*hard), mPosion = rand()%(5*hard), mGate = rand()%(3*hard);
+  while(mGrowth<(3*hard)) {mGrowth = rand()%(5*hard);}
+  while(mPosion<(3*hard)) {mPosion = rand()%(5*hard);}
+  while(mGate<(2*hard)) {mGate = rand()%(3*hard);}
+  while(mlen<(6*hard)) {mlen = rand()%(8*hard);}
 
   std::string temp = std::to_string(mlen);
   char* B = new char[temp.size() + 1];
   for(int i = 0; i <= temp.size(); i++)
     B[i] = temp[i];
-  
+
   temp = std::to_string(mGrowth);
   char* plus = new char[temp.size() + 1];
   for(int i = 0; i <= temp.size(); i++)
@@ -258,13 +258,25 @@ void drawMission(WINDOW* missionBoard, Score& score){
   wattron(missionBoard, COLOR_PAIR(9));
   mvwprintw(missionBoard, 1, 4, "Mission");
   mvwprintw(missionBoard, 2, 1, "B: "); mvwprintw(missionBoard, 2, 4, B);
-  if(mlen <= score.getMaxLen()) mvwprintw(missionBoard, 2, 7, "(O)");
+  if(mlen <= score.getMaxLen()){
+    mvwprintw(missionBoard, 2, 7, "(O)");
+    score.mission1 = true;
+  }
   mvwprintw(missionBoard, 3, 1, "+: "); mvwprintw(missionBoard, 3, 4, plus);
-  if(mGrowth <= score.getGrowth()) mvwprintw(missionBoard, 3, 7, "(O)");
+  if(mGrowth <= score.getGrowth()){
+    mvwprintw(missionBoard, 3, 7, "(O)");
+    score.mission2 = true;
+}
   mvwprintw(missionBoard, 4, 1, "-: "); mvwprintw(missionBoard, 4, 4, minus);
-  if(mPosion <= score.getPosion()) mvwprintw(missionBoard, 4, 7, "(O)");
+  if(mPosion <= score.getPosion()){
+    mvwprintw(missionBoard, 4, 7, "(O)");
+    score.mission3 = true;
+  }
   mvwprintw(missionBoard, 5, 1, "G: "); mvwprintw(missionBoard, 5, 4, G);
-  if(mGate <= score.getGate()) mvwprintw(missionBoard, 5, 7, "(O)");
+  if(mGate <= score.getGate()){
+    mvwprintw(missionBoard, 5, 7, "(O)");
+    score.mission4 = true;
+  }
   wborder(missionBoard, '|','|','-','-','+','+','+','+');
   wrefresh(missionBoard);
 }
@@ -297,12 +309,9 @@ int main()
 
   std::string maps[4] = {"CircleMap.txt", "plainMap.txt", "CrossMap.txt", "CircleMap.txt"};
 
-  bool next = true;
-  int test = 2, map_count=0;
+  int next = 1, map_count=0;
   while(next){
-    if(test == 0)
-      next = false;
-    test -= 1;
+    next -= 1;
 
     WINDOW* scoreBoard;
     WINDOW* missionBoard;
@@ -352,9 +361,13 @@ int main()
       makeEvent(F,S);
       if(S.death)
         break;
+      if(score.clearGame()){
+        next++;
+        break;
+      }
 
       drawScore(scoreBoard, score, nickName);
-      drawMission(missionBoard, score);
+      drawMission(missionBoard, score, map_count+1);
       drawField(F, S);
       refresh();
 
