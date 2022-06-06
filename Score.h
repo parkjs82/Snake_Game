@@ -15,4 +15,7 @@ public:
     int getLen();
     int getMaxLen();
     int getScore();
+
+    bool mission1, mission2, mission3, mission4;
+    bool clearGame();
 };
