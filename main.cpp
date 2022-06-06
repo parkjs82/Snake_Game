@@ -189,15 +189,39 @@ void drawScore(WINDOW* scoreBoard, Score& score, char nickname[]){
 }
 void drawMission(WINDOW* missionBoard, Score& score){
 
-  // static int plus = rand()%15, minus = rand()%15, G = rand()%6, B;
+  static int a = rand()%15, b = rand()%15, c = rand()%8, d = rand()%20;
+  while(a<5) {a = rand()%15;}
+  while(b<5) {b = rand()%15;}
+  while(c<2) {c = rand()%8;}
+  while(d<10) {d = rand()%20;}
+
+  std::string temp = std::to_string(a);
+  char* plus = new char[temp.size() + 1];
+  for(int i = 0; i <= temp.size(); i++)
+    plus[i] = temp[i];
+
+  temp = std::to_string(b);
+  char* minus = new char[temp.size() + 1];
+  for(int i = 0; i <= temp.size(); i++)
+    minus[i] = temp[i];
+
+  temp = std::to_string(c);
+  char* G = new char[temp.size() + 1];
+  for(int i = 0; i <= temp.size(); i++)
+    G[i] = temp[i];
+
+  temp = std::to_string(d);
+  char* B = new char[temp.size() + 1];
+  for(int i = 0; i <= temp.size(); i++)
+    B[i] = temp[i];
 
   wbkgd(missionBoard, COLOR_PAIR(9));
   wattron(missionBoard, COLOR_PAIR(9));
   mvwprintw(missionBoard, 1, 4, "Mission");
-  mvwprintw(missionBoard, 2, 1, "B: ");
-  mvwprintw(missionBoard, 3, 1, "+: "); //mvwprintw(missionBoard, 3, 4, (char)(plus+48));
-  mvwprintw(missionBoard, 4, 1, "-: "); //mvwprintw(missionBoard, 4, 4, (char)(minus+48));
-  mvwprintw(missionBoard, 5, 1, "G: "); //mvwprintw(missionBoard, 5, 4, (char)(G+48));
+  mvwprintw(missionBoard, 2, 1, "B: "); mvwprintw(missionBoard, 2, 4, B);
+  mvwprintw(missionBoard, 3, 1, "+: "); mvwprintw(missionBoard, 3, 4, plus);
+  mvwprintw(missionBoard, 4, 1, "-: "); mvwprintw(missionBoard, 4, 4, minus);
+  mvwprintw(missionBoard, 5, 1, "G: "); mvwprintw(missionBoard, 5, 4, G);
   wborder(missionBoard, '|','|','-','-','+','+','+','+');
   wrefresh(missionBoard);
 }
