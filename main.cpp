@@ -19,13 +19,17 @@ void eventManager(makeField &F, snake &S, Score &score){
       S.death = true;
       break;
     case 5:
+      F.itemCount--;
+      F.mkG = true;
       S.growthLength();
       score.growthItems();
       break;
     case 6:
+      F.itemCount--;
       S.reduceLength();
       score.posionItems();
       break;
+
     case 7:
       score.useGate();
       if(S.baem[0].row == S.door[0] && S.baem[0].colunm==S.door[1]){
@@ -116,31 +120,44 @@ void makeEvent(makeField& F,snake& S, Score& score){
   F.field[S.baem[0].row][S.baem[0].colunm]++;
 
   srand(time(NULL));
-  static int count_temp = 19;
-  static int g_x=1, g_y = 1, r_x = 1, r_y = 1;
+  static int g_x = 1, g_y = 1, g_t = 19;
+  static int r_x = 1, r_y = 1, r_t = 19;
+  static bool mkP = true;
+  g_t++;r_t++;
 
-  count_temp++;
-
-  if(count_temp==20){
-    count_temp=0;
-    if(F.field[g_x][g_y] == 5){F.field[g_x][g_y] = 0;}
-    if(F.field[r_x][r_y] == 6){F.field[r_x][r_y] = 0;}
-
-    bool mk = true;
-    while(mk){
-      g_x = rand()%20, g_y = rand()%20;
-      if(F.field[g_x][g_y] != 0) continue;
-      F.field[g_x][g_y] = 5;
-      mk=false;
-    }
-    mk = true;
-    while(mk){
-      r_x = rand()%20, r_y = rand()%20;
-      if(F.field[r_x][r_y] != 0) continue;
-      F.field[r_x][r_y] = 6;
-      mk=false;
-    }
+  if(g_t == 20){
+    g_t = 0;
+    F.mkG = true;
   }
+  if(r_t == 20){
+    r_t = 0;
+    if(F.field[r_x][r_y] == 6){
+      F.field[r_x][r_y] = 0;
+      F.itemCount--;
+    }
+    mkP = true;
+  }
+
+  while(mkP){
+    r_x = rand()%20, r_y = rand()%20;
+    if(F.field[r_x][r_y] != 0) continue;
+    F.field[r_x][r_y] = 6;
+    F.itemCount++;
+    mkP=false;
+  }
+
+  while(F.mkG){
+    if(F.itemCount > 2){
+      F.mkG = false;
+      break;
+    }
+    g_x = rand()%20, g_y = rand()%20;
+    if(F.field[g_x][g_y] != 0) continue;
+    F.field[g_x][g_y] = 5;
+    F.itemCount++;
+    F.mkG=false;
+  }
+
 
   static bool mk_door1 = true;
   static bool mk_door2 = true;
