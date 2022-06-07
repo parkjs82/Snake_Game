@@ -8,7 +8,7 @@ Score::Score()
     mission1 = mission2 = mission3 = mission4 = false;
 }
 
-void Score::time() { second += 0.5; }
+void Score::time() { second += 0.25; }
 
 void Score::growthItems() { growth += 1; len += 1; (len > maxLen) ? maxLen = len: maxLen = maxLen; }
 

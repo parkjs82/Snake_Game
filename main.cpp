@@ -125,11 +125,11 @@ void makeEvent(makeField& F,snake& S, Score& score){
   static bool mkP = true;
   g_t++;r_t++;
 
-  if(g_t == 20){
+  if(g_t == 40){
     g_t = 0;
     F.mkG = true;
   }
-  if(r_t == 20){
+  if(r_t == 40){
     r_t = 0;
     if(F.field[r_x][r_y] == 6){
       F.field[r_x][r_y] = 0;
@@ -345,7 +345,7 @@ int main()
   attroff(COLOR_PAIR(8));
   scanw("%s", nickName);
 
-  std::string maps[4] = {"CircleMap.txt", "FinalMap.txt", "CrossMap.txt", "FinalMap.txt"};
+  std::string maps[4] = {"PlainMap.txt", "CircleMap.txt", "CrossMap.txt", "FinalMap.txt"};
 
   int next = 1, map_count=0;
   while(next){
@@ -371,7 +371,7 @@ int main()
     initShape();
 
     while(true){
-      _sleep(500);
+      _sleep(250);
 
       score.time();
       char pressedKey = getch();
