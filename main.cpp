@@ -201,6 +201,19 @@ void drawScore(WINDOW* scoreBoard, Score& score, char nickname[]){
     len[1] = ' ';
     len[2] = '\0';
   }
+  char maxLen[3];
+  if(score.getMaxLen() > 9)
+  {
+    maxLen[0] = score.getMaxLen() / 10 + '0';
+    maxLen[1] = score.getMaxLen() % 10 + '0';
+    maxLen[2] = '\0';
+  }
+  else
+  {
+    maxLen[0] = score.getMaxLen() % 10 + '0';
+    maxLen[1] = ' ';
+    maxLen[2] = '\0';
+  }
   char G[3];
   if(score.getGate() > 9)
   {
@@ -220,6 +233,7 @@ void drawScore(WINDOW* scoreBoard, Score& score, char nickname[]){
   mvwprintw(scoreBoard, 2, 1, "User: "); mvwprintw(scoreBoard, 2, 7, nickname);
   mvwprintw(scoreBoard, 3, 1, scoreStr);
   mvwprintw(scoreBoard, 4, 1, "B: "); mvwprintw(scoreBoard, 4, 4, len);
+  mvwprintw(scoreBoard, 4, 6, "/"); mvwprintw(scoreBoard, 4, 7, maxLen);
   mvwprintw(scoreBoard, 5, 1, "+: "); mvwprintw(scoreBoard, 5, 4, plus);
   mvwprintw(scoreBoard, 6, 1, "-: "); mvwprintw(scoreBoard, 6, 4, minus);
   mvwprintw(scoreBoard, 7, 1, "G: "); mvwprintw(scoreBoard, 7, 4, G);
