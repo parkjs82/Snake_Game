@@ -229,6 +229,8 @@ void makeEvent(makeField &F, snake &S, Score &score)
     {
       S.door[2] = rand() % 21;
       S.door[3] = rand() % 21;
+      if((S.door[0] == S.door[2] || S.door[1] == S.door[3]))
+        continue;
       if ((F.field[S.door[2]][S.door[3]] != 1) || (S.door[0] == S.door[2] && S.door[1] == S.door[3]))
         continue;
       F.field[S.door[2]][S.door[3]] = 7;
