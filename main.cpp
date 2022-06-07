@@ -45,33 +45,28 @@ void eventManager(makeField &F, snake &S, Score &score)
         S.moveHead(2);
       else if (S.door[3] == 20)
         S.moveHead(4);
-      else if (S.direction == 3)
+      else
       {
-        if (F.field[S.door[2] + 1][S.door[3]] == 0)
-          S.moveHead(3);
-        else
-          S.moveHead((S.direction % 4) + 1);
-      }
-      else if (S.direction == 1)
-      {
-        if (F.field[S.door[2] - 1][S.door[3]] == 0)
-          S.moveHead(1);
-        else
-          S.moveHead((S.direction % 4) + 1);
-      }
-      else if (S.direction == 2)
-      {
-        if (F.field[S.door[2]][S.door[3] + 1] == 0)
-          S.moveHead(2);
-        else
-          S.moveHead((S.direction % 4) + 1);
-      }
-      else if (S.direction == 4)
-      {
-        if (F.field[S.door[2]][S.door[3] - 1] == 0)
-          S.moveHead(4);
-        else
-          S.moveHead((S.direction % 4) + 1);
+        while(true)
+        {
+          if (S.direction == 1 && F.field[S.door[2] - 1][S.door[3]] == 0){
+            S.moveHead(1);
+            break;
+          }
+          if (S.direction == 2 && F.field[S.door[2]][S.door[3] + 1] == 0){
+            S.moveHead(2);
+            break;
+          }
+          if (S.direction == 3 && F.field[S.door[2] + 1][S.door[3]] == 0){
+            S.moveHead(3);
+            break;
+          }
+          if (S.direction == 3 && F.field[S.door[2]][S.door[3] - 1] == 0){
+            S.moveHead(4);
+            break;
+          }
+          S.direction = (S.direction % 4 + 1);
+        }
       }
     }
     else if (S.baem[0].row == S.door[2] && S.baem[0].colunm == S.door[3])
@@ -86,37 +81,32 @@ void eventManager(makeField &F, snake &S, Score &score)
         S.moveHead(2);
       else if (S.door[1] == 20)
         S.moveHead(4);
-      else if (S.direction == 3)
-      {
-        if (F.field[S.door[0] + 1][S.door[1]] == 0)
-          S.moveHead(3);
         else
-          S.moveHead((S.direction % 4) + 1);
+        {
+          while(true)
+          {
+            if (S.direction == 1 && F.field[S.door[0] - 1][S.door[1]] == 0){
+              S.moveHead(1);
+              break;
+            }
+            if (S.direction == 2 && F.field[S.door[0]][S.door[1] + 1] == 0){
+              S.moveHead(2);
+              break;
+            }
+            if (S.direction == 3 && F.field[S.door[0] + 1][S.door[1]] == 0){
+              S.moveHead(3);
+              break;
+            }
+            if (S.direction == 3 && F.field[S.door[0]][S.door[1] - 1] == 0){
+              S.moveHead(4);
+              break;
+            }
+            S.direction = (S.direction % 4 + 1);
+          }
+        }
       }
-      else if (S.direction == 1)
-      {
-        if (F.field[S.door[0] - 1][S.door[1]] == 0)
-          S.moveHead(1);
-        else
-          S.moveHead((S.direction % 4) + 1);
-      }
-      else if (S.direction == 2)
-      {
-        if (F.field[S.door[0]][S.door[1] + 1] == 0)
-          S.moveHead(2);
-        else
-          S.moveHead((S.direction % 4) + 1);
-      }
-      else if (S.direction == 4)
-      {
-        if (F.field[S.door[0]][S.door[1] - 1] == 0)
-          S.moveHead(4);
-        else
-          S.moveHead((S.direction % 4) + 1);
-      }
+      break;
     }
-    break;
-  }
   for (int i = 1; i < S.length; i++)
   {
     if (S.baem[0].row == S.baem[i].row && S.baem[0].colunm == S.baem[i].colunm)
