@@ -307,7 +307,7 @@ int main()
   attroff(COLOR_PAIR(8));
   scanw("%s", nickName);
 
-  std::string maps[4] = {"CircleMap.txt", "plainMap.txt", "CrossMap.txt", "CircleMap.txt"};
+  std::string maps[4] = {"FinalMap.txt", "FinalMap.txt", "CrossMap.txt", "CircleMap.txt"};
 
   int next = 1, map_count=0;
   while(next){
