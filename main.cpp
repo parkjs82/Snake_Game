@@ -109,7 +109,7 @@ void eventManager(makeField &F, snake &S, Score &score){
   if(S.length < 3)
     S.death = true;
 }
-void makeEvent(makeField& F,snake& S){
+void makeEvent(makeField& F,snake& S, Score& score){
   for(int i = 0;i<S.length;i++){
       F.field[S.baem[i].row][S.baem[i].colunm] = 3;
   }
@@ -143,18 +143,25 @@ void makeEvent(makeField& F,snake& S){
   }
 
   static bool mk_door1 = true;
-  while(mk_door1){
-    S.door[0] = rand()%21; S.door[1] = rand()%21;
-    if(F.field[S.door[0]][S.door[1]] != 1) continue;
-    F.field[S.door[0]][S.door[1]] = 7;
-    mk_door1 = false;
-  }
   static bool mk_door2 = true;
-  while(mk_door2){
-    S.door[2] = rand()%21; S.door[3] = rand()%21;
-    if((F.field[S.door[2]][S.door[3]] != 1) || (S.door[0]==S.door[2] && S.door[1]==S.door[3])) continue;
-    F.field[S.door[2]][S.door[3]] = 7;
-    mk_door2 = false;
+  if(S.length == 5){
+    while(mk_door1){
+      S.door[0] = rand()%21; S.door[1] = rand()%21;
+      if(F.field[S.door[0]][S.door[1]] != 1) continue;
+      F.field[S.door[0]][S.door[1]] = 7;
+      mk_door1 = false;
+    }
+    while(mk_door2){
+      S.door[2] = rand()%21; S.door[3] = rand()%21;
+      if((F.field[S.door[2]][S.door[3]] != 1) || (S.door[0]==S.door[2] && S.door[1]==S.door[3])) continue;
+      F.field[S.door[2]][S.door[3]] = 7;
+      mk_door2 = false;
+    }
+  }
+
+  if(score.clearGame()){
+    mk_door1 = true;
+    mk_door2 = true;
   }
 }
 void drawScore(WINDOW* scoreBoard, Score& score, char nickname[]){
@@ -242,11 +249,11 @@ void drawScore(WINDOW* scoreBoard, Score& score, char nickname[]){
 }
 void drawMission(WINDOW* missionBoard, Score& score, int hard){
 
-  static int mlen = rand()%(8*hard), mGrowth = rand()%(5*hard), mPosion = rand()%(5*hard), mGate = rand()%(3*hard);
-  while(mGrowth<(3*hard)) {mGrowth = rand()%(5*hard);}
-  while(mPosion<(3*hard)) {mPosion = rand()%(5*hard);}
+  static int mlen = rand()%(6*hard), mGrowth = rand()%(4*hard), mPosion = rand()%(4*hard), mGate = rand()%(3*hard);
+  while(mGrowth<(3*hard)) {mGrowth = rand()%(4*hard);}
+  while(mPosion<(3*hard)) {mPosion = rand()%(4*hard);}
   while(mGate<(2*hard)) {mGate = rand()%(3*hard);}
-  while(mlen<(6*hard)) {mlen = rand()%(8*hard);}
+  while(mlen<(5*hard)) {mlen = rand()%(6*hard);}
 
   std::string temp = std::to_string(mlen);
   char* B = new char[temp.size() + 1];
@@ -321,7 +328,7 @@ int main()
   attroff(COLOR_PAIR(8));
   scanw("%s", nickName);
 
-  std::string maps[4] = {"FinalMap.txt", "FinalMap.txt", "CrossMap.txt", "CircleMap.txt"};
+  std::string maps[4] = {"CircleMap.txt", "FinalMap.txt", "CrossMap.txt", "FinalMap.txt"};
 
   int next = 1, map_count=0;
   while(next){
@@ -372,7 +379,7 @@ int main()
       }
 
       eventManager(F,S,score);
-      makeEvent(F,S);
+      makeEvent(F,S, score);
       if(S.death)
         break;
       if(score.clearGame()){
