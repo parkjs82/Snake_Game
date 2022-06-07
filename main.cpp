@@ -20,7 +20,6 @@ void eventManager(makeField &F, snake &S, Score &score){
       break;
     case 5:
       F.itemCount--;
-      F.mkG = true;
       S.growthLength();
       score.growthItems();
       break;
@@ -120,16 +119,29 @@ void makeEvent(makeField& F,snake& S, Score& score){
   F.field[S.baem[0].row][S.baem[0].colunm]++;
 
   srand(time(NULL));
-  static int g_x = 1, g_y = 1, g_t = 19;
+  static int g1_x = 1, g1_y = 1, g1_t = 19;
+  static int g2_x = 1, g2_y = 1, g2_t = 9;
   static int r_x = 1, r_y = 1, r_t = 19;
   static bool mkP = true;
-  g_t++;r_t++;
+  g1_t++;g2_t++;r_t++;
 
-  if(g_t == 40){
-    g_t = 0;
-    F.mkG = true;
+  if(g1_t == 20){
+    g1_t = 0;
+    if(F.field[g1_x][g1_y] == 5){
+      F.field[g1_x][g1_y] = 0;
+      F.itemCount--;
+    }
+    F.mkG1 = true;
   }
-  if(r_t == 40){
+  if(g2_t == 20){
+    g2_t = 0;
+    if(F.field[g2_x][g2_y] == 5){
+      F.field[g2_x][g2_y] = 0;
+      F.itemCount--;
+    }
+    F.mkG2 = true;
+  }
+  if(r_t == 20){
     r_t = 0;
     if(F.field[r_x][r_y] == 6){
       F.field[r_x][r_y] = 0;
@@ -146,16 +158,27 @@ void makeEvent(makeField& F,snake& S, Score& score){
     mkP=false;
   }
 
-  while(F.mkG){
+  while(F.mkG1){
     if(F.itemCount > 2){
-      F.mkG = false;
+      F.mkG1 = false;
       break;
     }
-    g_x = rand()%20, g_y = rand()%20;
-    if(F.field[g_x][g_y] != 0) continue;
-    F.field[g_x][g_y] = 5;
+    g1_x = rand()%20, g1_y = rand()%20;
+    if(F.field[g1_x][g1_y] != 0) continue;
+    F.field[g1_x][g1_y] = 5;
     F.itemCount++;
-    F.mkG=false;
+    F.mkG1=false;
+  }
+  while(F.mkG2){
+    if(F.itemCount > 2){
+      F.mkG2 = false;
+      break;
+    }
+    g2_x = rand()%20, g2_y = rand()%20;
+    if(F.field[g2_x][g2_y] != 0) continue;
+    F.field[g2_x][g2_y] = 5;
+    F.itemCount++;
+    F.mkG2=false;
   }
 
 
@@ -345,7 +368,7 @@ int main()
   attroff(COLOR_PAIR(8));
   scanw("%s", nickName);
 
-  std::string maps[4] = {"PlainMap.txt", "CircleMap.txt", "CrossMap.txt", "FinalMap.txt"};
+  std::string maps[4] = {"CircleMap.txt", "FinalMap.txt", "CrossMap.txt", "FinalMap.txt"};
 
   int next = 1, map_count=0;
   while(next){

@@ -3,7 +3,8 @@
 makeField::makeField(int width, int height, std::string mapFile)
 {
   this->itemCount = 0;
-  this->mkG = true;
+  this->mkG1 = false;
+  this->mkG2 = false;
   this->width = width;
   this->height = height;
   field = new int *[height];

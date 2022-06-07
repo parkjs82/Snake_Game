@@ -5,7 +5,8 @@ class makeField
 {
 public:
   int itemCount;
-  bool mkG;
+  bool mkG1;
+  bool mkG2;
   int width, height;
   int **field;
 
