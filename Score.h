@@ -2,6 +2,7 @@ class Score
 {
     double second;
     int growth, posion, gate, len, maxLen;
+
 public:
     Score();
     void time();
