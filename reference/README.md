@@ -4,4 +4,4 @@
 
 [functions eng](https://pubs.opengroup.org/onlinepubs/7908799/xcurses/curses.h.html)
 
-[functions eng](https://neverapple88.tistory.com/m/28)
+[nodelay input](https://neverapple88.tistory.com/m/28)

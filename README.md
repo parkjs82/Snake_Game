@@ -10,6 +10,7 @@
 
 ## 사용방법
 ```
+cd src
 make
 ./snake_game
 ```
