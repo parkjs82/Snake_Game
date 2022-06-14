@@ -1,7 +1,6 @@
 #include <fstream>
 #include <cstdlib>
 #include <unistd.h>
-#include <ncurses.h>
 #include "./module/MakeField.h"
 #include "./module/Snake.h"
 #include "./module/Score.h"
