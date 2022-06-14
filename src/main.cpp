@@ -1,13 +1,10 @@
 #include <fstream>
 #include <cstdlib>
-#include <ctime>
 #include <unistd.h>
-#include <time.h>
 #include "./module/MakeField.h"
 #include "./module/Shapes.cpp"
 #include "./module/Snake.h"
 #include "./module/Score.h"
-#include "string"
 
 #define _sleep(x) usleep(x * 1000)
 
