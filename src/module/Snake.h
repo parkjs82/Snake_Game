@@ -1,3 +1,6 @@
+#ifndef SNAKE_H
+#define SNAKE_H
+
 #include <iostream>
 
 class PartOfSnake {
@@ -23,3 +26,5 @@ class Snake {
   void growthLength();
   void go();
 };
+
+#endif

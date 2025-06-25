@@ -1,3 +1,6 @@
+#ifndef MAKEFIELD_H
+#define MAKEFIELD_H
+
 #include <fstream>
 #include <iostream>
 
@@ -14,3 +17,5 @@ class MakeField {
   int getWidth() { return width; }
   int getHeigth() { return height; }
 };
+
+#endif
