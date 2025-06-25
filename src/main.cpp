@@ -7,7 +7,7 @@
 #include "./module/Event.h"
 #include "./module/MakeField.h"
 #include "./module/Score.h"
-#include "./module/Shapes.cpp"
+#include "./module/Shapes.h"
 #include "./module/Snake.h"
 
 #define _sleep(x) usleep(x * 1000)
@@ -16,11 +16,11 @@ int main() {
   resize_term(22, 80);
   initscr();  // Curses모드시작
 
-  char nickName[7];
+  char nickName[8];
   attron(COLOR_PAIR(8));
   printw("Enter User nickname: ");
   attroff(COLOR_PAIR(8));
-  scanw("%s", nickName);
+  getnstr(nickName, 7);
 
   std::string maps[4] = {"../map/PlainMap.txt", "../map/CrossMap.txt",
                          "../map/CircleMap.txt", "../map/FinalMap.txt"};
