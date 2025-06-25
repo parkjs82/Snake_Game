@@ -5,9 +5,9 @@
 
 class PartOfSnake {
  public:
-  int row, colunm, direction = 2;
+  int row, column, direction = 2;
 
-  PartOfSnake(int row = 0, int colunm = 0);
+  PartOfSnake(int row = 0, int column = 0);
 };
 class Snake {
  public:

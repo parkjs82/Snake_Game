@@ -6,10 +6,12 @@ MakeField::MakeField(int width, int height, std::string mapFile) {
   this->mkG2 = false;
   this->width = width;
   this->height = height;
+
   field = new int *[height];
   for (int i = 0; i < height; i++) {
     field[i] = new int[width];
   }
+
   std::ifstream inputFile(mapFile);
   char line[25];
   int counter = 0;

@@ -1,8 +1,8 @@
 #include "Snake.h"
 
-PartOfSnake::PartOfSnake(int row, int colunm) {
+PartOfSnake::PartOfSnake(int row, int column) {
   this->row = row;
-  this->colunm = colunm;
+  this->column = column;
 }
 Snake::Snake(int length, int direction) {
   this->length = length;
@@ -25,7 +25,7 @@ void Snake::move(int direction) {
   }
   for (int i = this->length - 1; i != 0; i--) {
     baem[i].row = baem[i - 1].row;
-    baem[i].colunm = baem[i - 1].colunm;
+    baem[i].column = baem[i - 1].column;
   }
   if ((this->direction - direction) % 2 == 0) {
     moveHead(this->direction);
@@ -40,20 +40,20 @@ void Snake::moveHead(int direction) {
       this->baem[0].row--;
       break;
     case 2:
-      this->baem[0].colunm++;
+      this->baem[0].column++;
       break;
     case 3:
       this->baem[0].row++;
       break;
     case 4:
-      this->baem[0].colunm--;
+      this->baem[0].column--;
       break;
   }
 }
 void Snake::reduceLength() { this->length--; }
 void Snake::growthLength() {
   this->baem[length] =
-      PartOfSnake(baem[length - 1].row, baem[length - 1].colunm);
+      PartOfSnake(baem[length - 1].row, baem[length - 1].column);
   this->length++;
 }
 void Snake::go() { move(this->direction); }

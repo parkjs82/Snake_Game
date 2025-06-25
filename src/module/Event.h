@@ -8,4 +8,4 @@
 void eventManager(MakeField &field, Snake &snake, Score &score);
 void makeEvent(MakeField &field, Snake &snake, Score &score);
 
-#endif  // EVENT_H
+#endif

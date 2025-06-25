@@ -3,7 +3,7 @@
 
 class Score {
   double second;
-  int growth, posion, gate, len, maxLen;
+  int growth, potion, gate, len, maxLen;
 
  public:
   Score();
@@ -13,7 +13,7 @@ class Score {
   void useGate();
 
   int getGrowth();
-  int getPosion();
+  int getPotion();
   int getGate();
   int getLen();
   int getMaxLen();

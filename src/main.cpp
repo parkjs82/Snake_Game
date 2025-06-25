@@ -83,7 +83,7 @@ int main() {
       refresh();
 
       for (int i = 0; i < S.length; i++) {
-        F.field[S.baem[i].row][S.baem[i].colunm] = 0;
+        F.field[S.baem[i].row][S.baem[i].column] = 0;
       }
     }
     map_count++;

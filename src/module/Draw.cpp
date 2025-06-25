@@ -2,59 +2,33 @@
 
 #include "Shapes.h"
 
+void intToCharArray(int value, char *buffer, bool fillSpace = false) {
+  if (value > 9) {
+    buffer[0] = value / 10 + '0';
+    buffer[1] = value % 10 + '0';
+    buffer[2] = '\0';
+  } else {
+    buffer[0] = value % 10 + '0';
+    buffer[1] = fillSpace ? ' ' : '\0';
+    buffer[2] = '\0';
+  }
+}
+
 void drawScore(WINDOW *scoreBoard, Score &score, char nickname[]) {
   std::string str = "Score: " + std::to_string(score.getScore());
   char *scoreStr = new char[str.size() + 1];
   for (int i = 0; i <= str.size(); i++) scoreStr[i] = str[i];
 
   char plus[3];
-  if (score.getGrowth() > 9) {
-    plus[0] = score.getGrowth() / 10 + '0';
-    plus[1] = score.getGrowth() % 10 + '0';
-    plus[2] = '\0';
-  } else {
-    plus[0] = score.getGrowth() % 10 + '0';
-    plus[1] = '\0';
-  }
-
+  intToCharArray(score.getGrowth(), plus);
   char minus[3];
-  if (score.getPosion() > 9) {
-    minus[0] = score.getPosion() / 10 + '0';
-    minus[1] = score.getPosion() % 10 + '0';
-    minus[2] = '\0';
-  } else {
-    minus[0] = score.getPosion() % 10 + '0';
-    minus[1] = '\0';
-  }
+  intToCharArray(score.getPotion(), minus);
   char len[3];
-  if (score.getLen() > 9) {
-    len[0] = score.getLen() / 10 + '0';
-    len[1] = score.getLen() % 10 + '0';
-    len[2] = '\0';
-  } else {
-    len[0] = score.getLen() % 10 + '0';
-    len[1] = ' ';
-    len[2] = '\0';
-  }
+  intToCharArray(score.getLen(), len, true);
   char maxLen[3];
-  if (score.getMaxLen() > 9) {
-    maxLen[0] = score.getMaxLen() / 10 + '0';
-    maxLen[1] = score.getMaxLen() % 10 + '0';
-    maxLen[2] = '\0';
-  } else {
-    maxLen[0] = score.getMaxLen() % 10 + '0';
-    maxLen[1] = ' ';
-    maxLen[2] = '\0';
-  }
+  intToCharArray(score.getMaxLen(), maxLen, true);
   char G[3];
-  if (score.getGate() > 9) {
-    G[0] = score.getGate() / 10 + '0';
-    G[1] = score.getGate() % 10 + '0';
-    G[2] = '\0';
-  } else {
-    G[0] = score.getGate() % 10 + '0';
-    G[1] = '\0';
-  }
+  intToCharArray(score.getGate(), G);
 
   wbkgd(scoreBoard, COLOR_PAIR(9));
   wattron(scoreBoard, COLOR_PAIR(9));
@@ -125,7 +99,7 @@ void drawMission(WINDOW *missionBoard, Score &score, int hard) {
   }
   mvwprintw(missionBoard, 4, 1, "-: ");
   mvwprintw(missionBoard, 4, 4, minus);
-  if (mPosion <= score.getPosion()) {
+  if (mPosion <= score.getPotion()) {
     mvwprintw(missionBoard, 4, 7, "(O)");
     score.mission3 = true;
   }

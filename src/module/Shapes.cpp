@@ -1,6 +1,3 @@
-#ifndef SHAPES
-#define SHAPES
-
 #include <curses.h>
 
 #define EMPTY_SPACE 1
@@ -74,5 +71,3 @@ void appendDoor() {
   addch(' ');
   attroff(COLOR_PAIR(DOOR));
 }
-
-#endif
