@@ -18,7 +18,6 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $(OBJS) -lncurses
 
-# 각 .o 파일을 대응하는 .cpp 파일로부터 생성
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
