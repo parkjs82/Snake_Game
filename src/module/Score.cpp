@@ -1,7 +1,6 @@
 #include "./Score.h"
 
-Score::Score()
-{
+Score::Score() {
   second = 0.0;
   growth = posion = gate = 0;
   maxLen = len = 3;
@@ -10,15 +9,13 @@ Score::Score()
 
 void Score::time() { second += 0.25; }
 
-void Score::growthItems()
-{
+void Score::growthItems() {
   growth += 1;
   len += 1;
   (len > maxLen) ? maxLen = len : maxLen = maxLen;
 }
 
-void Score::posionItems()
-{
+void Score::posionItems() {
   posion += 1;
   len -= 1;
 }
@@ -35,11 +32,7 @@ int Score::getLen() { return len; }
 
 int Score::getMaxLen() { return maxLen; }
 
-int Score::getScore()
-{
-  return second + 10 * (growth + posion + gate);
-}
-bool Score::clearGame()
-{
+int Score::getScore() { return second + 10 * (growth + posion + gate); }
+bool Score::clearGame() {
   return (mission1 && mission2 && mission3 && mission4);
 }

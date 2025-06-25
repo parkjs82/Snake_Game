@@ -13,8 +13,7 @@
 #define TEXT 8
 #define BOARD 9
 
-void initShape()
-{
+void initShape() {
   start_color();
   init_pair(EMPTY_SPACE, COLOR_BLACK, COLOR_GREEN);
   init_pair(WALL, COLOR_BLACK, COLOR_BLUE);
@@ -27,56 +26,49 @@ void initShape()
   init_pair(BOARD, COLOR_BLACK, COLOR_WHITE);
 }
 
-void appendEmptySpace()
-{
+void appendEmptySpace() {
   attron(COLOR_PAIR(EMPTY_SPACE));
   printw(" ");
   printw(" ");
   attroff(COLOR_PAIR(EMPTY_SPACE));
 }
 
-void appendWall()
-{
+void appendWall() {
   attron(COLOR_PAIR(WALL));
   addch(' ');
   addch(' ');
   attroff(COLOR_PAIR(WALL));
 }
 
-void appendSnakeHead()
-{
+void appendSnakeHead() {
   attron(COLOR_PAIR(SNAKE_HEAD));
   addch(' ');
   addch(' ');
   attroff(COLOR_PAIR(SNAKE_HEAD));
 }
 
-void appendSnakeBody()
-{
+void appendSnakeBody() {
   attron(COLOR_PAIR(SNAKE_BODY));
   addch(' ');
   addch(' ');
   attroff(COLOR_PAIR(SNAKE_BODY));
 }
 
-void appendGrowthItem()
-{
+void appendGrowthItem() {
   attron(COLOR_PAIR(GROWTH_ITEM));
   addch(' ');
   addch(' ');
   attroff(COLOR_PAIR(GROWTH_ITEM));
 }
 
-void appendPoisonItem()
-{
+void appendPoisonItem() {
   attron(COLOR_PAIR(POISON_ITEM));
   addch(' ');
   addch(' ');
   attroff(COLOR_PAIR(POISON_ITEM));
 }
 
-void appendDoor()
-{
+void appendDoor() {
   attron(COLOR_PAIR(DOOR));
   addch(' ');
   addch(' ');

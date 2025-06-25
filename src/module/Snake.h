@@ -1,23 +1,21 @@
 #include <iostream>
 
-class partOfSnake
-{
-public:
+class PartOfSnake {
+ public:
   int row, colunm, direction = 2;
 
-  partOfSnake(int row = 0, int colunm = 0);
+  PartOfSnake(int row = 0, int colunm = 0);
 };
-class snake
-{
-public:
+class Snake {
+ public:
   int length;
   int direction;
   bool addicted;
   bool full;
   bool death;
-  partOfSnake baem[30];
+  PartOfSnake baem[30];
   int door[4];
-  snake(int length = 3, int direction = 4);
+  Snake(int length = 3, int direction = 4);
 
   void move(int direction);
   void moveHead(int direction);
